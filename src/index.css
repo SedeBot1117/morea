@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --primary: #2563eb;
-  --primary-dark: #1d4ed8;
-  --secondary: #0f172a;
-  --accent: #8b5cf6;
-  --background: #ffffff;
-  --text: #0f172a;
+  --primary: #C3B29A;  /* Main brown */
+  --primary-dark: #8C7B66; /* Darker brown */
+  --secondary: #E5DED4; /* Light beige */
+  --accent: #D4C3B3; /* Warm accent */
+  --background: #F5F2EE; /* Cream background */
+  --text: #4A4039; /* Dark brown text */
 }
 
 /* Base Styles */
@@ -24,7 +24,7 @@ body {
 /* Smooth Scrolling */
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 80px; /* Adjust for fixed header */
+  scroll-padding-top: 80px;
 }
 
 /* Modern Selection Style */
@@ -80,7 +80,7 @@ button:active {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--secondary);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -111,11 +111,11 @@ button:active {
   }
   
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#C3B29A] to-[#8C7B66];
   }
   
   .bg-gradient {
-    @apply bg-gradient-to-r from-primary to-accent;
+    @apply bg-gradient-to-r from-[#C3B29A] to-[#8C7B66];
   }
   
   .hover-lift {
@@ -124,6 +124,27 @@ button:active {
   
   .card-shadow {
     @apply shadow-lg hover:shadow-xl transition-shadow duration-300;
+  }
+
+  /* Additional brown theme utilities */
+  .bg-cream {
+    background-color: var(--background);
+  }
+
+  .bg-beige {
+    background-color: var(--secondary);
+  }
+
+  .text-brown {
+    color: var(--primary);
+  }
+
+  .text-dark-brown {
+    color: var(--primary-dark);
+  }
+
+  .border-brown {
+    border-color: var(--primary);
   }
 }
 
@@ -146,4 +167,39 @@ button:active {
 .page-exit-active {
   opacity: 0;
   transition: opacity 300ms;
+}
+
+/* Custom Button Styles */
+.btn-primary {
+  @apply bg-[#C3B29A] text-white px-6 py-2 rounded-full 
+         hover:bg-[#8C7B66] transition-colors duration-300
+         focus:ring-2 focus:ring-[#C3B29A] focus:ring-opacity-50;
+}
+
+.btn-secondary {
+  @apply bg-[#E5DED4] text-[#4A4039] px-6 py-2 rounded-full
+         hover:bg-[#D4C3B3] transition-colors duration-300
+         focus:ring-2 focus:ring-[#E5DED4] focus:ring-opacity-50;
+}
+
+/* Card Styles */
+.card {
+  @apply bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow
+         border border-[#E5DED4];
+}
+
+/* Section Styles */
+.section-alt {
+  @apply bg-[#E5DED4] py-16;
+}
+
+/* Navigation Styles */
+.nav-link {
+  @apply text-[#4A4039] hover:text-[#8C7B66] transition-colors duration-300;
+}
+
+/* Form Elements */
+input, textarea, select {
+  @apply border-[#E5DED4] focus:border-[#C3B29A] focus:ring-[#C3B29A]
+         rounded-lg transition-colors duration-300;
 }

@@ -19,7 +19,7 @@ function AnnouncementBanner() {
   }, []);
 
   return (
-    <div className="bg-blue-600 text-white overflow-hidden h-10">
+    <div className="bg-[#C3B29A] text-white overflow-hidden h-10">
       <div className="max-w-7xl mx-auto px-4 h-full">
         <div className="relative h-full flex items-center justify-center">
           <AnimatePresence mode='wait'>

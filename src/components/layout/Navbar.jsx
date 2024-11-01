@@ -1,11 +1,13 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import AnnouncementBanner from './AnnouncementBanner';
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -13,11 +15,39 @@ function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const scrollToSection = (sectionId) => {
+    // If we're not on the home page, first navigate there
+    if (location.pathname !== '/') {
+      navigate('/');
+      // Add a small delay to allow for navigation
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      }, 100);
+    } else {
+      // If we're already on the home page, just scroll
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    }
+    setIsOpen(false); // Close mobile menu if open
+  };
+
   const navItems = [
-    { path: '/features', label: 'Features' },
-    { path: '/specs', label: 'Specs' },
-    { path: '/benefits', label: 'Benefits' },
-    { path: '/reviews', label: 'Reviews' },
+    { id: 'products', label: 'Products' },
+    { id: 'features', label: 'Features' },
+    { id: 'specs', label: 'Specs' },
+    { id: 'benefits', label: 'Benefits' },
+    { id: 'reviews', label: 'Reviews' },
   ];
 
   return (
@@ -39,19 +69,18 @@ function Navbar() {
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-8">
               {navItems.map((item) => (
-                <NavLink
-                  key={item.path}
-                  to={item.path}
-                  className={({ isActive }) =>
-                    `text-gray-700 hover:text-blue-600 transition-colors ${
-                      isActive ? 'text-blue-600 font-semibold' : ''
-                    }`
-                  }
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className="text-gray-700 hover:text-blue-600 transition-colors"
                 >
                   {item.label}
-                </NavLink>
+                </button>
               ))}
-              <button className="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">
+              <button 
+                onClick={() => scrollToSection('products')}
+                className="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors"
+              >
                 Order Now
               </button>
             </nav>
@@ -71,6 +100,23 @@ function Navbar() {
               </svg>
             </button>
           </div>
+
+          {/* Mobile Menu */}
+          {isOpen && (
+            <div className="md:hidden">
+              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                {navItems.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id)}
+                    className="block w-full text-left px-3 py-2 text-gray-700 hover:text-blue-600 transition-colors"
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </motion.header>
     </div>
